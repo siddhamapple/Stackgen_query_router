@@ -34,7 +34,7 @@ graph TD
     C -->|No Match| F[Graceful Failure]
     D --> G[Mocked Response]
     E --> G
-    F --> G[\"I cannot answer this question\"]
+    F --> G["I cannot answer this question"]
 
 ```
 
