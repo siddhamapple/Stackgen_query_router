@@ -1,4 +1,4 @@
-# 🧠 StackGen Query Router
+#  StackGen Query Router
 
 > **A clean, extensible, agent-based query routing system that mimics how modern AI platforms dispatch user requests to the correct tools or agents.**
 
@@ -20,7 +20,7 @@ This project simulates that **decision layer**—the logic that determines *who*
 
 ---
 
-## 🏗️ System Architecture
+##  System Architecture
 
 The system follows a linear routing flow:
 
@@ -38,3 +38,83 @@ graph TD
 
 ```
 
+## Project Structure
+```bash
+Stackgen_query_router/
+├── agents/
+│   ├── base_agent.py        # Common agent interface
+│   ├── github_agent.py      # Mock GitHub agent
+│   └── linear_agent.py      # Mock Linear agent
+│
+├── router/
+│   ├── intent_classifier.py # Intent detection logic
+│   └── query_router.py      # Core routing orchestration
+│
+├── core/
+│   ├── logger.py            # Centralized logging
+│   └── exceptions.py        # Custom exception hierarchy
+│
+├── tests/
+│   └── test_router.py       # Minimal routing tests
+│
+├── main.py                  # CLI entry point
+├── README.md
+└── requirements.txt
+└── pytest.ini
+
+```
+
+##  Installation
+
+1. Clone the Repository
+
+```bash
+git clone https://github.com/siddhamapple/Stackgen_query_router.git
+cd Stackgen_query_router
+```
+
+2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Usage
+### Start the CLI
+```bash
+python main.py
+```
+
+## Example Session
+```bash
+>> Show my open pull requests
+2025-12-26 16:21:05,659 | INFO | router | Routing query to GitHubAgent
+You have 2 open pull requests and 1 pending review.
+
+>> What issues are assigned to me?
+2025-12-26 16:21:16,577 | INFO | router | Routing query to LinearAgent
+You have 3 issues assigned to you in Linear.
+
+>> What's the weather today?
+2025-12-26 16:21:26,199 | WARNING | router | No intent matched for query
+I cannot answer this question.
+
+```
+Type exit to quit.
+
+
+## Running Tests
+To run the automated test suite:
+
+```bash
+pytest
+``` 
+
+### What Is Tested
+
+✔ Correct agent routing
+
+✔ Proper handling of unsupported queries
+
+## Author
+Siddham Jain
