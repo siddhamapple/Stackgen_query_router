@@ -116,5 +116,65 @@ pytest
 
 ✔ Proper handling of unsupported queries
 
+
+## ➕ How to Add a New Agent
+
+This project is designed to be easily extensible. Adding a new agent requires **minimal changes** and does **not** affect existing agents or the CLI.
+
+Below is an example of adding a new `JiraAgent`.
+
+---
+
+### Step 1️: Create a New Agent
+
+Create a new file inside the `agents/` directory.
+
+ `agents/jira_agent.py` (for documentation example, let the new agent be jira)
+
+```python
+from agents.base_agent import BaseAgent
+
+
+class JiraAgent(BaseAgent):
+    """
+    Mock agent for Jira-related queries.
+    """
+
+    def handle(self, query: str) -> str:
+        return "You have 5 Jira tickets assigned to you."
+
+```
+### Step 2️: Register the Agent in the Router
+
+Open:  `router/query_router.py`
+
+Import the new agent:
+
+`from agents.jira_agent import JiraAgent `   
+
+
+Register it in the agent registry:
+
+```python
+AGENT_REGISTRY = {
+    "github": GitHubAgent(),
+    "linear": LinearAgent(),
+    "jira": JiraAgent(),
+}
+```
+
+### Step 3️ Update Intent Classification
+
+Open: `router/intent_classifier.py`
+
+Add Jira-related intent rules:
+
+```python
+if "jira" in query or "ticket" in query:
+    return "jira"
+```
+
+
 ## Author
 Siddham Jain
+
