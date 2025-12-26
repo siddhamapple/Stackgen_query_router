@@ -25,6 +25,7 @@ This project simulates that **decision layer**—the logic that determines *who*
 The system follows a linear routing flow:
 
 ```mermaid
+
 graph TD
     A[User Query] --> B[Intent Classifier]
     B -->|Intent Label| C[Query Router]
