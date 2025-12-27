@@ -19,6 +19,32 @@ The project is intentionally simple yet architecturally sound, reflecting how AI
 This project simulates that **decision layer**—the logic that determines *who* should answer the user before any API call is made.
 
 ---
+##  Intent Classification Strategy (Score-Based Routing)
+
+The system uses a **simple score-based intent classification** approach to route user queries to the correct agent.
+
+Instead of relying on a single keyword match, each intent is associated with a list of keywords.  
+The classifier computes a **score for each intent** based on how many of its keywords appear in the user query, and selects the intent with the highest score.
+
+### How It Works
+
+1. The user query is converted to lowercase.
+2. For each intent (e.g. `github`, `linear`), the classifier:
+   - Counts how many intent-specific keywords appear in the query.
+3. The intent with the highest keyword match score is selected.
+4. If no intent receives a positive score, the query is treated as unsupported.
+
+### Example
+
+```plaintext
+Query: "Show my assigned pull request issues on github"
+github keywords matched: "pull request", "github" → score = 2 
+linear keywords matched: "issue" → score = 1
+```
+(This returns Github_Agent because of the score of github agent > score of linear agent)
+
+In cases of ties or overlaps, the router deterministically selects the highest-scoring intent based on the configured keyword sets (Python returns the FIRST key with the maximum value).
+---
 
 ##  System Architecture
 
@@ -29,11 +55,14 @@ The system follows a linear routing flow:
 graph TD
     A[User Query] --> B[Intent Classifier]
     B -->|Intent Label| C[Query Router]
+
     C -->|Select Agent| D[GitHubAgent]
     C -->|Select Agent| E[LinearAgent]
     C -->|No Match| F[Graceful Failure]
-    D --> G[Mocked Response]
-    E --> G
+
+    D --> H[Agent Response]
+    E --> H[Agent Response]
+
     F --> G["I cannot answer this question"]
 
 ```
