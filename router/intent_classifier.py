@@ -1,14 +1,47 @@
-def classify_intent(query: str) -> str | None:
+from typing import Optional
+
+# Simple keyword scoring for intent detection
+INTENT_KEYWORDS = {
+    "github": [
+        "pull request",
+        "pull requests",
+        "pr",
+        "prs",
+        "commit",
+        "repository",
+        "repo",
+        "github",
+    ],
+    "linear": [
+        "issue",
+        "issues",
+        "ticket",
+        "tickets",
+        "bug",
+        "assigned",
+        "linear",
+    ],
+}
+
+
+def classify_intent(query: str) -> Optional[str]:
     """
-    Classifies user intent based on keywords.
-    Returns intent label or None.
+    Classifies the intent of a user query using keyword scoring.
+
+    Returns:
+        - intent string if matched
+        - None if no intent matches
     """
     query = query.lower()
+    scores = {}
 
-    if "pull request" in query or "repo" in query or "github" in query:
-        return "github"
+    for intent, keywords in INTENT_KEYWORDS.items():
+        score = sum(1 for kw in keywords if kw in query)
+        if score > 0:
+            scores[intent] = score
 
-    if "issue" in query or "ticket" in query or "linear" in query:
-        return "linear"
+    if not scores:
+        return None
 
-    return None
+    # Return intent with highest score
+    return max(scores, key=scores.get)
