@@ -1,8 +1,8 @@
 from agents.github_agent import GitHubAgent
 from agents.linear_agent import LinearAgent
+from router.intent_classifier import classify_intent
 from core.exceptions import AgentNotFoundError, AgentExecutionError
 from core.logger import setup_logger
-from router.intent_classifier import classify_intent
 
 logger = setup_logger("router")
 
@@ -14,7 +14,7 @@ AGENT_REGISTRY = {
 
 def route_query(query: str) -> str:
     """
-    Routes the query to the appropriate agent.
+    Routes the user query to the appropriate agent based on intent.
     """
     intent = classify_intent(query)
 
