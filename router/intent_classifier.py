@@ -24,7 +24,7 @@ INTENT_KEYWORDS = {
 }
 
 
-def classify_intent(query: str) -> Optional[str]:
+def classify_intent(query: str) -> Optional[str]: #return either string or none
     """
     Classifies the intent of a user query using keyword scoring.
 
